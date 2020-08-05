@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextProps, View, StyleProp, ViewStyle, Pressable } from 'react-native';
 
+import Ripple from 'react-native-material-ripple';
 
 export interface FlatButtonProps extends TextProps {
     containerStyle?: StyleProp<ViewStyle>
@@ -11,16 +12,14 @@ export interface FlatButtonProps extends TextProps {
 const _FlatButton: React.FC<FlatButtonProps> = (props) => {
     const { title, onPress } = props
     return (
-        <Pressable
+
+        <Ripple
             onPress={onPress}
-        >
-            <View
-                style={StyleSheet.flatten([_styles.container, props.containerStyle])} >
-                <Text style={_styles.title}>
-                    {title}
-                </Text>
-            </View >
-        </Pressable>
+            style={StyleSheet.flatten([_styles.container, props.containerStyle])} >
+            <Text style={_styles.title}>
+                {title}
+            </Text>
+        </Ripple>
     )
 
 }

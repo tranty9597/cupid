@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, TextProps, View, StyleProp, ViewStyle, Pressable } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
+import Ripple from 'react-native-material-ripple';
 
 export interface RoundedButtonProps extends TextProps {
     containerStyle?: StyleProp<ViewStyle>
@@ -12,29 +13,31 @@ export interface RoundedButtonProps extends TextProps {
 const _RoundedButton: React.FC<RoundedButtonProps> = (props) => {
     const { title, onPress } = props
     return (
-        <Pressable
-            onPress={onPress}
-        >
+
+        <Ripple onPress={onPress} style={StyleSheet.flatten([_styles.container, props.containerStyle])} >
             <LinearGradient
                 colors={['#EE4E9B', '#D06767']}
-                style={StyleSheet.flatten([_styles.container, props.containerStyle])} >
+                style={_styles.linear}
+            >
                 <Text style={_styles.title}>
                     {title}
                 </Text>
             </LinearGradient >
-        </Pressable>
+        </Ripple>
     )
 
 }
 
 const _styles = StyleSheet.create({
     container: {
-        backgroundColor: 'pink',
-        flexDirection: 'row',
         height: 44,
-        borderRadius: 22,
+    },
+    linear: {
+        flex: 1,
+        flexDirection: 'row',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderRadius: 22,
     },
     title: {
         color: 'white',

@@ -13,6 +13,7 @@ module.exports = {
           "@core": "./src/core",
           "@domain": "./src/domain",
           "@data": "./src/data",
+          "@context": "./src/presentation/context",
         }
       }
     ]

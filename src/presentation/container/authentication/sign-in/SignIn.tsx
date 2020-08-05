@@ -6,12 +6,19 @@ import { StackNavigationProp } from '@react-navigation/stack';
 
 import { AppImages } from '@assets';
 import { TextField, TextView, RoundedButton, IconLabel } from '@components';
+import { NavigatorContext } from '@context';
 
 export interface _SignInProps {
     navigation: StackNavigationProp<any>
 }
 
 const _SignIn: React.FC<_SignInProps> = (props) => {
+
+    const { setIsAuthorized } = React.useContext(NavigatorContext)
+
+    const onSignInButtonPress = () => {
+        setIsAuthorized(true)
+    }
 
     const renderTitle = () => {
         return (
@@ -48,7 +55,7 @@ const _SignIn: React.FC<_SignInProps> = (props) => {
                 />
                 <RoundedButton
                     containerStyle={_styles.button}
-                    onPress={() => props.navigation.navigate('SignUp')}
+                    onPress={onSignInButtonPress}
                     title='SIGN IN'
                 />
                 <IconLabel
@@ -111,7 +118,7 @@ const _styles = StyleSheet.create({
         marginTop: 100
     },
     form: {
-        
+
     },
     input: {
         marginVertical: 24

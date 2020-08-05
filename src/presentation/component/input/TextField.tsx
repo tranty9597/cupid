@@ -45,7 +45,7 @@ const _styles = StyleSheet.create({
         height: 1,
         marginTop: 8,
         width: '100%',
-        // backgroundColor: '#F1F3F8'
-        backgroundColor: 'black'
+        backgroundColor: '#F1F3F8'
+        // backgroundColor: 'black'
     }
 })

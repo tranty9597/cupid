@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Button, StyleSheet, Text } from 'react-native';
+import { View, Image, Button, StyleSheet, Text, Alert } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -16,8 +16,31 @@ const _SignIn: React.FC<_SignInProps> = (props) => {
 
     const { setIsAuthorized } = React.useContext(NavigatorContext)
 
-    const onSignInButtonPress = () => {
-        setIsAuthorized(true)
+    const onSignInButtonPress = async () => {
+        try {
+            const response = await fetch('https://cupid-api.now.sh/user/auth/sign-in', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': "application/json",
+                },
+                body: JSON.stringify({
+                    "phoneNumber": "0365021305",
+                    "firebaseToken": {
+                        "key": "sdfdsf",
+                        "code": "221117"
+                    }
+                })
+            })
+
+            if (response.status !== 200) {
+                Alert.alert("Login",  "Failed")
+                return
+            }
+            const result = await response.json()
+            setIsAuthorized(true)
+        } catch (error) {
+            console.log("saf", error)
+        }
     }
 
     const renderTitle = () => {

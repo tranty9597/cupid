@@ -1,17 +1,27 @@
 import React from 'react'
-import { Image } from 'react-native';
+import { Image, LayoutAnimation, Platform, UIManager } from 'react-native';
 
 import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom-tabs'
 
 import { AppImages } from '@assets';
 
 import { Home } from '../container';
-import { NavigatorContext } from '../context/NavigatorContext';
+import { NavigatorContext } from '@context';
 
 const Tab = createBottomTabNavigator();
 
 const _MainTabNavigator: React.FC = (props) => {
     const { tabBarVisible } = React.useContext(NavigatorContext)
+
+    React.useLayoutEffect(() => {
+        if (Platform.OS === 'android') {
+            if (UIManager.setLayoutAnimationEnabledExperimental) {
+                UIManager.setLayoutAnimationEnabledExperimental(true);
+            }
+        }
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
+    }, [tabBarVisible])
+
     return (
         <Tab.Navigator tabBar={props => {
             if (!tabBarVisible) return null

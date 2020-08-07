@@ -14,6 +14,7 @@ module.exports = {
           "@domain": "./src/domain",
           "@data": "./src/data",
           "@context": "./src/presentation/context",
+          "@di": "./src/di",
         }
       }
     ]

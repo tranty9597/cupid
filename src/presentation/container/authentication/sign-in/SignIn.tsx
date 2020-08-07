@@ -5,8 +5,10 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { AppImages } from '@assets';
-import { TextField, TextView, RoundedButton, IconLabel } from '@components';
+import { TextField, TextView, RoundedButton, IconLabel, FullScreenLoadingIndicator } from '@components';
 import { NavigatorContext } from '@context';
+import { AppMoudle } from '@di';
+
 
 export interface _SignInProps {
     navigation: StackNavigationProp<any>
@@ -14,32 +16,35 @@ export interface _SignInProps {
 
 const _SignIn: React.FC<_SignInProps> = (props) => {
 
+    const mountedRef = React.useRef(false)
+
     const { setIsAuthorized } = React.useContext(NavigatorContext)
+    const [phone, setPhone] = React.useState('')
+    const [isLoading, setLoading] = React.useState(false)
+
+    React.useEffect(() => {
+        mountedRef.current = true
+        return () => { mountedRef.current = false }
+    }, [])
 
     const onSignInButtonPress = async () => {
         try {
-            const response = await fetch('https://cupid-api.now.sh/user/auth/sign-in', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': "application/json",
-                },
-                body: JSON.stringify({
-                    "phoneNumber": "0365021305",
-                    "firebaseToken": {
-                        "key": "sdfdsf",
-                        "code": "221117"
-                    }
-                })
+            setLoading(true)
+            const result = await AppMoudle.shared.datasource.signIn({
+                phoneNumber: phone,
+                firebaseToken: {
+                    "key": "sdfdsf",
+                    "code": "221117"
+                }
             })
-
-            if (response.status !== 200) {
-                Alert.alert("Login",  "Failed")
-                return
-            }
-            const result = await response.json()
+            AppMoudle.shared.apiProvider.setToken(result.token)
             setIsAuthorized(true)
         } catch (error) {
-            console.log("saf", error)
+            console.warn("Faile")
+        } finally {
+            if (mountedRef.current) {
+                setLoading(false)
+            }
         }
     }
 
@@ -58,8 +63,9 @@ const _SignIn: React.FC<_SignInProps> = (props) => {
                     containerStyle={_styles.input}
                     prefixIcon={AppImages.EMAIL}
                     inputProps={{
-                        placeholder: 'Email',
-                        keyboardType: 'email-address',
+                        onChangeText: setPhone,
+                        placeholder: 'Phone number',
+                        keyboardType: 'phone-pad',
                     }}
                 />
                 <TextField
@@ -86,6 +92,7 @@ const _SignIn: React.FC<_SignInProps> = (props) => {
                     text='Remember me?'
                     labelStyle={_styles.rememberText}
                 />
+                <FullScreenLoadingIndicator visible={isLoading} />
             </View>
         )
     }

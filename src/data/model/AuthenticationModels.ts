@@ -8,7 +8,15 @@ export interface SignInRequestData {
     }
 }
 
+export interface ApiResult<T> {
+    data: T
+    message?: string
+}
+
 export interface SignInResponseData {
     token: string,
     userInfo: UserModel
+}
+export interface SignUpResponseData {
+     
 }

@@ -5,7 +5,7 @@ import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom
 
 import { AppImages } from '@assets';
 
-import { Home } from '../container';
+import { Home, Setting } from '../container';
 import { NavigatorContext } from '@context';
 
 const Tab = createBottomTabNavigator();
@@ -60,7 +60,7 @@ const _MainTabNavigator: React.FC = (props) => {
                     tabBarIcon: () => <Image source={AppImages.EMAIL} />
                 }}
                 name="Settings"
-                component={Home} />
+                component={Setting} />
         </Tab.Navigator>
     );
 }

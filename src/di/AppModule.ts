@@ -1,5 +1,5 @@
 import { ApiProvider, DefaultApiProvider } from "@core"
-import { RemoteAuthenticationDatasource, DefaultRemoteAuthenticationDatasource } from "@data"
+import { RemoteAuthenticationDatasource, DefaultRemoteAuthenticationDatasource, LocalAuthenticationDataSource, AsyncStorageAuthenticationDataSource } from "@data"
 
 export class AppMoudle {
     private static _instance: AppMoudle
@@ -15,6 +15,8 @@ export class AppMoudle {
 
     datasource!: RemoteAuthenticationDatasource
 
+    localAuthenticationDataSource!: LocalAuthenticationDataSource
+
     private constructor() {
         this.intializeDatasource()
     }
@@ -22,6 +24,8 @@ export class AppMoudle {
     intializeDatasource() {
         this.apiProvider = new DefaultApiProvider({ baseURL: "https://cupid-api.now.sh" })
         this.datasource = new DefaultRemoteAuthenticationDatasource(this.apiProvider)
+
+        this.localAuthenticationDataSource = new AsyncStorageAuthenticationDataSource();
     }
 
 }

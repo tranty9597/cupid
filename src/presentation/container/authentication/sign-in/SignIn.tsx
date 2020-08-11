@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Image, Button, StyleSheet, Text, Alert } from 'react-native';
+import { View, Image, StyleSheet } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -8,7 +8,6 @@ import { AppImages } from '@assets';
 import { TextField, TextView, RoundedButton, IconLabel, FullScreenLoadingIndicator } from '@components';
 import { NavigatorContext } from '@context';
 import { AppMoudle } from '@di';
-
 
 export interface _SignInProps {
     navigation: StackNavigationProp<any>
@@ -38,7 +37,8 @@ const _SignIn: React.FC<_SignInProps> = (props) => {
                 }
             })
             AppMoudle.shared.apiProvider.setToken(result.token)
-            setIsAuthorized(true)
+            await AppMoudle.shared.localAuthenticationDataSource.saveToken(result.token)
+            setIsAuthorized(true)   
         } catch (error) {
             console.warn("Faile")
         } finally {

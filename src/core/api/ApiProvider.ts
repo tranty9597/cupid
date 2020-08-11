@@ -27,6 +27,7 @@ export class DefaultApiProvider implements ApiProvider {
     }
     setToken(token: string): void {
         this.token = token
+        this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 
 
@@ -34,7 +35,7 @@ export class DefaultApiProvider implements ApiProvider {
         return this.axiosInstance.post(url, data)
     }
     get<T>(url: string): Promise<T> {
-        throw new Error("Method not implemented.");
+        return this.axiosInstance.post(url)
     }
     put<T>(url: string, data: any): Promise<T> {
         throw new Error("Method not implemented.");

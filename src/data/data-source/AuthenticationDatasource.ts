@@ -1,5 +1,5 @@
 import { ApiProvider, ServerException, RemoteException } from "@core";
-import { SignInResponseData, SignInRequestData } from "../model";
+import { SignInResponseData, SignInRequestData, ApiResult } from "../model";
 
 export interface RemoteAuthenticationDatasource {
 
@@ -27,9 +27,9 @@ export class DefaultRemoteAuthenticationDatasource implements RemoteAuthenticati
 
     async signIn(body: SignInRequestData): Promise<SignInResponseData> {
         try {
-            const result = await this.provider.post<SignInResponseData>("/user/auth/sign-in", body)
+            const result = await this.provider.post<ApiResult<SignInResponseData>>("/user/auth/sign-in", body)
             console.log(result)
-            return result.data
+            return result.data.data
         } catch (error) {
             console.log(error)
             if (error.code === 500) {
